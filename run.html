@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/run.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/hitPix.js"></script>
+    <style>
+        html,body{
+            padding: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background:url("img/body.png");
+            position: relative;
+        }
+        ul,li{
+            list-style: none;
+        }
+        canvas{
+            background: url(img/changjing.jpg) repeat-x;
+            /*background-size: 2442px 686px;*/
+        }
+        .start{
+            width: 350px;
+            height: 250px;
+            border: 3px solid #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 20px #000;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            z-index: 1;
+            animation: start 2s ease forwards;
+        }
+        .mask{
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.7);
+            position: absolute;
+            top: 0;
+            left: 0;
+            animation: mask 2s ease forwards;
+        }
+        .over{
+            width: 350px;
+            height: 300px;
+            border: 3px solid #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px #000;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            z-index: 1;
+            color: #fff;
+            background: rgba(0,0,0,0.3);
+            animation: start1 2s ease forwards;
+        }
+        .game{
+            line-height: 80px;
+            color: #fff;
+            font-size: 25px;
+        }
+        @keyframes start {
+            0%{
+                transform: translate(0,-1000px);
+            }
+            100%
+            {
+                transform: translate(0,0);
+            }
+        }
+        @keyframes start1 {
+            0%{
+                transform: translate(0,0);
+            }
+            100%
+            {
+                transform: translate(0,-1000px);
+            }
+        }
+        @keyframes mask {
+            0%{
+                background: rgba(0,0,0,0.1);
+            }
+            100%
+            {
+                background: rgba(0,0,0,0.7);
+            }
+        }
+        @keyframes mask1 {
+            0%{
+                background: rgba(0,0,0,0.7);
+            }
+            100%
+            {
+                background: rgba(0,0,0,0);
+            }
+        }
+        .cjpk{
+            line-height: 160px;
+            color: #fff;
+            font-family: "微软雅黑", "arial";
+            font-size: 25px;
+        }
+         .life{
+             position: absolute;
+             top: 30px;
+             right:220px;
+             color: orange;
+         }
+        .smz{
+            width: 182px;
+            height: 20px;
+            border: 1px solid #000;
+            position: absolute;
+            top:30px;
+            right:40px;
+        }
+        .progress1{
+            width: 180px;
+            height: 18px;
+            background: pink;
+        }
+        .jf{
+            width: 100px;
+            height: 20px;
+            /*border: 1px solid #000;*/
+            position: absolute;
+            top: 70px;
+            right:175px;
+        }
+        .jf span{
+            color:orange;
+        }
+        .jifen{
+            color:orange;
+        }
+
+    </style>
+</head>
+<body>
+<canvas></canvas>
+<audio src="video/7905.wav" class="runA" loop></audio>
+<audio src="video/5540.wav" class="zidanA"></audio>
+<audio src="video/7008.wav" class="jumpA"></audio>
+<audio src="video/die.wav" class="dieA"></audio>
+<div class="start text-center">
+    <div class="cjpk">超级跑酷</div>
+    <button type="button" class="btn btn-success ksyx">开始游戏</button>
+</div>
+<div class="over text-center">
+    <div class="game">Game Over!</div>
+    当前分数：<span class="scoreEle">0</span><br>
+    历史记录：
+    <ul class="text-center">
+
+    </ul>
+    <button type="button" class="btn btn-success again">再来一次</button>
+</div>
+<div class="mask">
+    <span class="life">生命值：</span>
+    <div class="smz">
+        <div class="progress1"></div>
+    </div>
+     <div class="jf">
+         <span style="color:orange;">积分：</span>
+         <span class="jifen">0</span>
+     </div>
+</div>
+<img src="img/ru1.png" alt="" class="run" hidden>
+<img src="img/ru2.png" alt="" class="run" hidden>
+<img src="img/ru3.png" alt="" class="run" hidden>
+<img src="img/ru4.png" alt="" class="run" hidden>
+<img src="img/ru5.png" alt="" class="run" hidden>
+<img src="img/ru6.png" alt="" class="run" hidden>
+
+<img src="img/ru4.png" alt="" class="jump" hidden>
+
+<img src="img/1.png" alt="" class="hinder" hidden>
+<img src="img/2.png" alt="" class="hinder" hidden>
+<img src="img/3.png" alt="" class="hinder" hidden>
+<img src="img/4.png" alt="" class="hinder" hidden>
+<img src="img/5.png" alt="" class="hinder" hidden>
+<img src="img/6.png" alt="" class="hinder" hidden>
+<img src="img/7.png" alt="" class="hinder" hidden>
+<img src="img/8.png" alt="" class="hinder" hidden>
+<img src="img/9.png" alt="" class="hinder" hidden>
+<img src="img/zi1.png" alt="" class="zidan" hidden>
+</body>
+</html>
